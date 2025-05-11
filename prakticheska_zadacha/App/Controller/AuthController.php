@@ -7,8 +7,10 @@ class AuthController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             session_start();
 
-            // Sanitize and trim input
-            $username = trim(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING));
+             // Strip HTML tags and trim spaces
+            $usernameRaw = $_POST['username'] ?? '';
+            $username = trim(strip_tags($usernameRaw));
+            
             $password = $_POST['password'] ?? '';
 
             // Validate input
