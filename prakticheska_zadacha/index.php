@@ -18,7 +18,7 @@ if (file_exists($controllerFile)) {
     $controllerInstance = new $controllerClass($mysqli);
 
     //protected контролери за security measures
-    $protectedControllers = ['Article']; // add more later
+    $protectedControllers = ['Article']; 
     $isProtected = in_array($controller, $protectedControllers);
 
     if ($isProtected && empty($_SESSION['authenticated'])) {
