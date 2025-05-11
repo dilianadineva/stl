@@ -31,6 +31,8 @@ class AuthController {
                 header('Location: index.php?controller=Article&action=index');
                 exit;
             } else {
+                // Escaping username input before output to prevent XSS
+                $safeUsername = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
                 echo 'Невалидни данни за достъп.';
             }
         }
