@@ -7,7 +7,7 @@ class AuthController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             session_start();
 
-             // Strip HTML tags and trim spaces
+            // Strip HTML tags and trim spaces
             $usernameRaw = $_POST['username'] ?? '';
             $username = trim(strip_tags($usernameRaw));
             
