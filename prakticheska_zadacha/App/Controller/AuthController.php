@@ -3,19 +3,36 @@ class AuthController {
     public function __construct($mysqli = null) {
         //simple login provided for now
     }
-    public function login() {
+   public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = $_POST['username'];
-            $password = $_POST['password'];
+            session_start();
 
-            if ($username === 'admin' && $password === 'admin') {
-                $_SESSION['authenticated'] = 'admin';
+            // Sanitize and trim input
+            $username = trim(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING));
+            $password = $_POST['password'] ?? '';
+
+            // Validate input
+            if (empty($username) || empty($password)) {
+                echo 'Моля, попълнете и двете полета.';
+                return;
+            }
+
+            // Simulate stored user data (in real apps: fetch from DB)
+            $storedUsername = 'admin';
+            $storedPasswordHash = password_hash('admin', PASSWORD_DEFAULT); // Normally stored in DB
+
+            // Secure password check
+            if ($username === $storedUsername && password_verify($password, $storedPasswordHash)) {
+                session_regenerate_id(true); // Prevent session fixation
+                $_SESSION['authenticated'] = $username;
+
                 header('Location: index.php?controller=Article&action=index');
                 exit;
             } else {
-                echo 'Невалидни данни за достъп';
+                echo 'Невалидни данни за достъп.';
             }
         }
+
         include 'App/View/login.php';
     }
 
